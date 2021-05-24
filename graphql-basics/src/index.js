@@ -1,1 +1,3 @@
-console.log("It's Alive");
+import { message } from './myModule';
+
+console.log(message);
