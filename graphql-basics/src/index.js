@@ -15,14 +15,32 @@ inStock - boolean
 //* TYPE DEFINITIONS(schema)
 const typeDefs = `
   type Query {
-
+    title: String!
+    price: Float!
+    releaseYear: Int
+    rating: Float
+    inStock: Boolean!
   }
 `
 
 //* RESOLVERS
 const resolvers = {
   Query: {
-
+    title() {
+      return 'Klean Kanteen'
+    },
+    price() {
+      return 29.99
+    },
+    releaseYear() {
+      return null
+    },
+    rating() {
+      return 4.5
+    },
+    inStock() {
+      return true
+    }
   }
 }
 
