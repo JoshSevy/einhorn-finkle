@@ -13,16 +13,29 @@ Test out the query
 //* TYPE DEFINITIONS(schema)
 const typeDefs = `
   type Query {
-
+    post: Post!
   }
 
+  type Post {
+    id: ID!
+    title: String!
+    body: String!
+    published: Int!
+  }
 
 `
 
 //* RESOLVERS
 const resolvers = {
   Query: {
-
+    post() {
+      return {
+        id: 234,
+        title: 'Challenge 4',
+        body: 'Look at me completing challenge 4 easily',
+        published: 2021
+      }
+    }
   }
 }
 
