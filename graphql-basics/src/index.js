@@ -15,31 +15,27 @@ inStock - boolean
 //* TYPE DEFINITIONS(schema)
 const typeDefs = `
   type Query {
-    title: String!
-    price: Float!
-    releaseYear: Int
-    rating: Float
-    inStock: Boolean!
+    me: User!
+  }
+
+  type User {
+    id: ID!
+    name: String!
+    email: String!
+    age: Int
   }
 `
 
 //* RESOLVERS
 const resolvers = {
   Query: {
-    title() {
-      return 'Klean Kanteen'
-    },
-    price() {
-      return 29.99
-    },
-    releaseYear() {
-      return null
-    },
-    rating() {
-      return 4.5
-    },
-    inStock() {
-      return true
+    me() {
+      return {
+        id: 234,
+        name: "Josh Sevy",
+        email: "joshuasevy@outlook.com",
+        age: 38
+      }
     }
   }
 }
