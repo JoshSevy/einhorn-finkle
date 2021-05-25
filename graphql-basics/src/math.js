@@ -4,3 +4,13 @@
 //TODO Setup subtract as a named export
 //TODO Import both functions into index.js
 //TODO Use both functions and print the result from each
+
+const add = (num1, num2) => {
+  return num1 + num2;
+};
+
+const subtract = (num1, num2) => {
+  return num1 - num2;
+};
+
+export { add, subtract as default };
