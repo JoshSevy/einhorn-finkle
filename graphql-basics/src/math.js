@@ -5,12 +5,8 @@
 //TODO Import both functions into index.js
 //TODO Use both functions and print the result from each
 
-const add = (num1, num2) => {
-  return num1 + num2;
-};
+const add = (a, b) => a + b;
 
-const subtract = (num1, num2) => {
-  return num1 - num2;
-};
+const subtract = (a, b) => a - b;
 
-export { add, subtract as default };
+export { add as default, subtract };

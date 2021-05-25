@@ -1,7 +1,4 @@
-import { message } from './myModule';
-import sub, { add } from './math';
+import add, { subtract } from './math';
 
-console.log(message);
-
-console.log(sub(4, 6));
+console.log(subtract(4, 6));
 console.log(add(24, 22));
