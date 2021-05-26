@@ -13,14 +13,23 @@ Test out the query
 //* TYPE DEFINITIONS(schema)
 const typeDefs = `
   type Query {
+    greeting(name: String): String!
     post: Post!
+    me: User!
   }
 
   type Post {
     id: ID!
     title: String!
     body: String!
-    published: Int!
+    published: Boolean!
+  }
+
+  type User {
+    id: ID!
+    name: String!
+    email: String!
+    age: Int
   }
 
 `
@@ -28,12 +37,23 @@ const typeDefs = `
 //* RESOLVERS
 const resolvers = {
   Query: {
+    greeting() {
+      return 'Hello'
+    },
     post() {
       return {
         id: 234,
         title: 'Challenge 4',
         body: 'Look at me completing challenge 4 easily',
-        published: 2021
+        published: true
+      }
+    },
+    me() {
+      return {
+        id: 123,
+        name: 'Joshua Sevy',
+        email: 'joshuasevy@outlook.com',
+        age: 38
       }
     }
   }
