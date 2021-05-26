@@ -37,8 +37,11 @@ const typeDefs = `
 //* RESOLVERS
 const resolvers = {
   Query: {
-    greeting() {
-      return 'Hello'
+    greeting(parent, args, ctx, info) {
+      if (args.name) {
+        return `Hello ${args.name}`
+      }
+      return 'Hello!'
     },
     post() {
       return {
