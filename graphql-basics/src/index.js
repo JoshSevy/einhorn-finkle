@@ -10,9 +10,15 @@ Define a post query that returns a single post
 Test out the query
  **/
 
+//! Challenge 5
+//! Create an 'add' query that returns a Float
+//! Setup 'add' to take in two arguments, which are required Floats
+//! Have the resolver send back the sum of both arguments
+
 //* TYPE DEFINITIONS(schema)
 const typeDefs = `
   type Query {
+    add(a: Float!, b: Float!): Float
     greeting(name: String): String!
     post: Post!
     me: User!
@@ -37,6 +43,9 @@ const typeDefs = `
 //* RESOLVERS
 const resolvers = {
   Query: {
+    add(parent, args, ctx, info) {
+      return (args.a && args.b)? args.a + args.b : null
+    },
     greeting(parent, args, ctx, info) {
       if (args.name) {
         return `Hello ${args.name}`
