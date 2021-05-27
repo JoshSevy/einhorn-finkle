@@ -18,8 +18,9 @@ Test out the query
 //* TYPE DEFINITIONS(schema)
 const typeDefs = `
   type Query {
-    add(a: Float!, b: Float!): Float
+    add(numbers: [Float!]!): Float
     greeting(name: String): String!
+    grades: [Int!]!
     post: Post!
     me: User!
   }
@@ -44,13 +45,19 @@ const typeDefs = `
 const resolvers = {
   Query: {
     add(parent, args, ctx, info) {
-      return (args.a && args.b)? args.a + args.b : null
+      if (args.numbers.length === 0) {
+        return 0;
+      }
+      return args.reduce((acc, cur) => acc + cur)
     },
     greeting(parent, args, ctx, info) {
       if (args.name) {
         return `Hello ${args.name}`
       }
       return 'Hello!'
+    },
+    grades(parent, args, ctx, info) {
+      return [99, 80, 93]
     },
     post() {
       return {
