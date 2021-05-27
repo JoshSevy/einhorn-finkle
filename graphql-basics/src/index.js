@@ -2,18 +2,23 @@ import { GraphQLServer } from 'graphql-yoga';
 
 //! 5 Scalar GraphQL Types: String, Boolean, Int, Float, ID
 
-//Challenge 4
-/*
-Create a Post type
-Add id, title, body, and published to the post type (all non-nullable)
-Define a post query that returns a single post
-Test out the query
- **/
-
-//! Challenge 5
-//! Create an 'add' query that returns a Float
-//! Setup 'add' to take in two arguments, which are required Floats
-//! Have the resolver send back the sum of both arguments
+//* Demo user data
+const users = [{
+  id: '1',
+  name: 'Josh',
+  email: 'joshuasevy@outlook.com',
+  age: 38
+}, {
+  id: '2',
+  name: 'Nicole',
+  email: 'niki@gmail.com',
+  age: 32
+}, {
+  id: '3',
+  name: 'Hank',
+  email: 'baby@gmail.com',
+}
+]
 
 //* TYPE DEFINITIONS(schema)
 const typeDefs = `
@@ -42,6 +47,9 @@ const typeDefs = `
 //* RESOLVERS
 const resolvers = {
   Query: {
+    users(parent, args, ctx, info) {
+
+    },
     post() {
       return {
         id: 234,
