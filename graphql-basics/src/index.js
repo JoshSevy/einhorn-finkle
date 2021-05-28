@@ -18,7 +18,9 @@ const users = [{
   name: 'Hank',
   email: 'baby@gmail.com',
 }
-]
+];
+
+//
 
 //* TYPE DEFINITIONS(schema)
 const typeDefs = `
