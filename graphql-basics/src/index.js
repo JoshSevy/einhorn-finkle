@@ -20,7 +20,29 @@ const users = [{
 }
 ];
 
-//
+const posts = [{
+  id: '11',
+  title: 'Post one of many',
+  body: 'Here is my first post cant wait to post more',
+  published: true
+}, {
+  id: '12',
+  title: 'My second post',
+  body: 'I can\'t believe this is already my second post',
+  published: true
+}, {
+  id: '13',
+  title: 'What should I write',
+  body: 'Come on got fans to impress',
+  published: false
+}]
+
+//! Challenge
+// 1. Setup an array of posts with dummy post data(id, title, body, published)
+// 2. Set up a 'posts' query and resolver that returns all the posts
+// 3. Test the query
+// 4. Add a "query" arg that only returns posts that contain the query string in the title or body
+// 5. Run a few sample queries searching for posts with a specific title
 
 //* TYPE DEFINITIONS(schema)
 const typeDefs = `
