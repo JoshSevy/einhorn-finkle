@@ -35,7 +35,7 @@ const posts = [{
   title: 'What should I write',
   body: 'Come on got fans to impress',
   published: false
-}]
+}];
 
 //! Challenge
 // 1. Setup an array of posts with dummy post data(id, title, body, published)
@@ -48,6 +48,7 @@ const posts = [{
 const typeDefs = `
   type Query {
     users(query: String): [User!]!
+    posts: [Post!]!
     post: Post!
     me: User!
   }
@@ -78,6 +79,9 @@ const resolvers = {
       return users.filter((user) => {
         return user.name.toLowerCase().includes(args.query.toLowerCase());
       });
+    },
+    posts() {
+      return posts
     },
     post() {
       return {
