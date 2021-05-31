@@ -1,11 +1,23 @@
 import { GraphQLServer } from 'graphql-yoga';
 
 //! 5 Scalar GraphQL Types: String, Boolean, Int, Float, ID
-//! Module challenge 1
+//! Module Challenge 1
 //1. Set up a "Comment" type with id and text fields. Non-nullable
 //2. Set up a "comments" array with a comments
 //3. Set up a "comments" query with a resolver that returns all the comments
 //4. Run a query to get all a comments with both id and text fields.
+
+//! Module Challenge 2
+// GOALS: Set up a relationship between Comment and User
+//
+//1. Set up an author field on Comment
+//2. Update all comments in the array to have a new author field that returns the user who wrote the comment
+//3. Create a resolver for the Comments author field that returns the user who wrote the comment
+//4. Run a sample query that gets all comments and gets the authors name
+//5. Set up a comment field on User
+//6. Set up a resolver for the User comments field that returns all comments belonging to that user
+//7. Run a sample query that gets all users and all those comments
+
 //* Dummy user data
 const users = [{
   id: '1',
