@@ -24,7 +24,7 @@ import { GraphQLServer } from 'graphql-yoga';
 //!1. Set up a post field on Comment
 //!2. Update all the comments in the array to have a new post field *use one of the post ids as value
 //!3. Create a resolver for the Comments post field that returns the post that the comment belongs to
-//4. Run a sample query that gets all comments and gets the post name
+//!4. Run a sample query that gets all comments and gets the post name
 //5. Set up a comments field on Post
 //6. Set up a resolver for the Post comments field that returns all comments belonging to that post
 //7. Run a sample query that gets all posts and all their comments
@@ -102,6 +102,7 @@ const typeDefs = `
     body: String!
     published: Boolean!
     author: User!
+    comments: [Comment!]
   }
 
   type User {
@@ -168,6 +169,9 @@ const resolvers = {
   Post: {
     author(parent, args, ctx, info) {
       return users.find(user => user.id === parent.author);
+    },
+    comments(parent, args, ctx, info) {
+      return comments.filter(comment => comment.post === parent.id)
     }
   },
   User: {
