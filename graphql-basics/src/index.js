@@ -1,8 +1,12 @@
 import { GraphQLServer } from 'graphql-yoga';
 
 //! 5 Scalar GraphQL Types: String, Boolean, Int, Float, ID
-
-//* Demo user data
+//! Module challenge 1
+//1. Set up a "Comment" type with id and text fields. Non-nullable
+//2. Set up a "comments" array with a comments
+//3. Set up a "comments" query with a resolver that returns all the comments
+//4. Run a query to get all a comments with both id and text fields.
+//* Dummy user data
 const users = [{
   id: '1',
   name: 'Josh',
@@ -20,6 +24,7 @@ const users = [{
 }
 ];
 
+//* Dummy post data
 const posts = [{
   id: '11',
   title: 'Post one of many',
@@ -115,7 +120,7 @@ const resolvers = {
   },
   User: {
     posts(parent, args, ctx, info) {
-
+      return posts.filter(post => post.author === parent.id);
     }
   }
 }
