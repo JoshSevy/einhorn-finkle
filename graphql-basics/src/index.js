@@ -64,6 +64,7 @@ const typeDefs = `
     posts(query: String): [Post!]!
     post: Post!
     me: User!
+    comments: [Comments!]
   }
 
   type Post {
@@ -79,6 +80,7 @@ const typeDefs = `
     name: String!
     email: String!
     age: Int
+    posts: [Post!]
   }
 
   type Comments {
@@ -129,7 +131,7 @@ const resolvers = {
     },
     comments() {
       return comments;
-    }
+    },
   },
   Post: {
     author(parent, args, ctx, info) {
