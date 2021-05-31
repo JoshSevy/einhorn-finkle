@@ -21,9 +21,9 @@ import { GraphQLServer } from 'graphql-yoga';
 //! Module Challenge 3
 // GOALS: Set up relationship between Post and Comment
 
-//1. Set up a post field on Comment
-//2. Update all the comments in the array to have a new post field *use one of the post ids as value
-//3. Create a resolver for the Comments post field that returns the post that the comment belongs to
+//!1. Set up a post field on Comment
+//!2. Update all the comments in the array to have a new post field *use one of the post ids as value
+//!3. Create a resolver for the Comments post field that returns the post that the comment belongs to
 //4. Run a sample query that gets all comments and gets the post name
 //5. Set up a comments field on Post
 //6. Set up a resolver for the Post comments field that returns all comments belonging to that post
@@ -72,15 +72,18 @@ const posts = [{
 const comments = [{
   id: '22',
   text: 'Really love your post',
-  author: '1'
+  author: '1',
+  post: '11'
 }, {
   id: '23',
   text: 'Would love to discuss this more, interesting',
-  author: '2'
+  author: '2',
+  post: '12'
 }, {
   id: '24',
   text: 'I have to disagree I prefer non relational structures',
-  author: '3'
+  author: '3',
+  post: '13'
 }];
 
 //* TYPE DEFINITIONS(schema)
@@ -114,6 +117,7 @@ const typeDefs = `
     id: ID!
     text: String!
     author: User!
+    post: Post!
   }
 `
 
@@ -178,6 +182,9 @@ const resolvers = {
   Comment: {
     author(parent, args, ctx, info) {
       return users.find(user => user.id === parent.author);
+    },
+    post(parent, args, ctx, info) {
+      return posts.find(post => post.id === parent.post);
     }
   }
 }
