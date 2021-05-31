@@ -45,6 +45,18 @@ const posts = [{
   author: '2'
 }];
 
+//Dummy comments data
+const comments = [{
+  id: '22',
+  text: 'Really love your post'
+}, {
+  id: '23',
+  text: 'Would love to discuss this more, interesting'
+}, {
+  id: '24',
+  text: 'I have to disagree I prefer non relational structures'
+}];
+
 //* TYPE DEFINITIONS(schema)
 const typeDefs = `
   type Query {
@@ -69,6 +81,10 @@ const typeDefs = `
     age: Int
   }
 
+  type Comments {
+    id: ID!
+    text: String!
+  }
 `
 
 //* RESOLVERS
@@ -94,7 +110,6 @@ const resolvers = {
         }
         return 'No posts!'
       })
-
     },
     post() {
       return {
@@ -111,6 +126,9 @@ const resolvers = {
         email: 'joshuasevy@outlook.com',
         age: 38
       }
+    },
+    comments() {
+      return comments;
     }
   },
   Post: {
