@@ -96,6 +96,10 @@ const typeDefs = `
     comments: [Comment!]
   }
 
+  type Mutation {
+    createUser(name: String!, email: String!, age: Int): User!
+  }
+
   type Post {
     id: ID!
     title: String!
@@ -165,6 +169,11 @@ const resolvers = {
     comments(parent, args, ctx, info) {
       return comments;
     },
+  },
+  Mutation: {
+    createUser(parent, args, ctx, info) {
+      console.log(args)
+    }
   },
   Post: {
     author(parent, args, ctx, info) {
