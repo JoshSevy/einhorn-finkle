@@ -2,15 +2,14 @@ import { GraphQLServer } from 'graphql-yoga';
 import uuidv4 from 'uuid/v4';
 
 //! 5 Scalar GraphQL Types: String, Boolean, Int, Float, ID
-//! Module Challenge 1
-//1. Set up a "Comment" type with id and text fields. Non-nullable
-//2. Set up a "comments" array with a comments
-//3. Set up a "comments" query with a resolver that returns all the comments
-//4. Run a query to get all a comments with both id and text fields.
+//! Add Comment Type and resolvers
+//!1. Set up a "Comment" type with id and text fields. Non-nullable
+//!2. Set up a "comments" array with a comments
+//!3. Set up a "comments" query with a resolver that returns all the comments
+//!4. Run a query to get all a comments with both id and text fields.
 
-//! Module Challenge 2
-// GOALS: Set up a relationship between Comment and User
-//
+//! Connect Comment and User
+//! GOALS: Set up a relationship between Comment and User
 //!1. Set up an author field on Comment
 //!2. Update all comments in the array to have a new author field that returns the user who wrote the comment
 //!3. Create a resolver for the Comments author field that returns the user who wrote the comment
@@ -19,16 +18,29 @@ import uuidv4 from 'uuid/v4';
 //!6. Set up a resolver for the User comments field that returns all comments belonging to that user
 //!7. Run a sample query that gets all users and all those comments
 
-//! Module Challenge 3
-// GOALS: Set up relationship between Post and Comment
+//! Connect Post and Comment
+//! GOALS: Set up relationship between Post and Comment
 
 //!1. Set up a post field on Comment
 //!2. Update all the comments in the array to have a new post field *use one of the post ids as value
 //!3. Create a resolver for the Comments post field that returns the post that the comment belongs to
 //!4. Run a sample query that gets all comments and gets the post name
-//5. Set up a comments field on Post
-//6. Set up a resolver for the Post comments field that returns all comments belonging to that post
-//7. Run a sample query that gets all posts and all their comments
+//!5. Set up a comments field on Post
+//!6. Set up a resolver for the Post comments field that returns all comments belonging to that post
+//!7. Run a sample query that gets all posts and all their comments
+
+//TODO Comment Mutation
+
+//TODO Goal: Allow clients to create a new comment
+
+//!1. Define a new createComment mutation
+//! - Should take text, author, post
+//! - Should return a comment
+//2. Define a resolver method for createComment
+// - Confirm that the user exists and is published, else throw error
+// - If they do exist, create the comment and return it
+//3. Run the mutation and add a comment
+//4. Use the commets query to verify the comment was added
 
 //* Dummy user data
 const users = [{
@@ -100,6 +112,7 @@ const typeDefs = `
   type Mutation {
     createUser(name: String!, email: String!, age: Int): User!
     createPost(title: String!, body: String!, published: Boolean!, author: ID!): Post!
+    createComment(text: String!, author: ID!, post: ID!): Comment!
   }
 
   type Post {
@@ -208,6 +221,31 @@ const resolvers = {
       posts.push(post);
 
       return post;
+    },
+    createComment(parent, args, ctx, info) {
+      const postPublished = posts.some(post => post.id === args.post && post.published);
+      const userExists = users.some(user => user.id === args.author);
+
+      if (!postPublished) {
+        throw new Error('Post not found');
+      }
+
+      if (!userExists) {
+        throw new Error('User not found');
+      }
+
+      const author = users.find(user => user.id === args.author);
+      const post = posts.find(post => post.id === args.post);
+
+      const comment = {
+        id: uuidv4(),
+        text: args.text,
+        author: args.author,
+        post: args.post
+      }
+
+      comments.push(comment);
+      return comment;
     }
   },
   Post: {
