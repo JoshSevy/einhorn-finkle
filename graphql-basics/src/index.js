@@ -42,6 +42,8 @@ import uuidv4 from 'uuid/v4';
 //3. Run the mutation and add a comment
 //4. Use the commets query to verify the comment was added
 
+//TODO Remove a post and relational data with a mutation
+
 //* Dummy user data
 let users = [{
   id: '1',
@@ -113,7 +115,9 @@ const typeDefs = `
     createUser(data: CreateUserInput!): User!
     deleteUser(id: ID!): User!
     createPost(data: CreatePostInput!): Post!
+    deletePost(id: ID!)
     createComment(data: CreateCommentInput!): Comment!
+    deleteComment(id: ID!)
   }
 
   input CreateUserInput {
@@ -259,6 +263,15 @@ const resolvers = {
 
       return post;
     },
+    deletePost(parent, args, ctx, info) {
+      const postIndex = posts.indexOf(post => post.id === args.id);
+
+      const deletedPost = posts.splice(postIndex, 1);
+
+      comments = comments.filter(comment => comment.post !== args.id);
+
+      return deletedPost;
+    },
     createComment(parent, args, ctx, info) {
       const postPublished = posts.some(post => post.id === args.data.post && post.published);
       const userExists = users.some(user => user.id === args.data.author);
@@ -279,6 +292,13 @@ const resolvers = {
       comments.push(comment);
       return comment;
     }
+  },
+  deleteComment(parent, args, ctx, info){
+    const commentIndex = comments.indexOf(comment => comment.id === args.id);
+
+    const deletedComment = comments.splice(commentIndex, 1);
+
+
   },
   Post: {
     author(parent, args, ctx, info) {
