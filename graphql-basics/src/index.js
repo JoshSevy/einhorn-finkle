@@ -110,9 +110,10 @@ const typeDefs = `
   }
 
   type Mutation {
-    createUser(data: CreateUserInput): User!
-    createPost(data: CreatePostInput): Post!
-    createComment(data: CreateCommentInput): Comment!
+    createUser(data: CreateUserInput!): User!
+    deleteUser(id: ID!): User!
+    createPost(data: CreatePostInput!): Post!
+    createComment(data: CreateCommentInput!): Comment!
   }
 
   input CreateUserInput {
@@ -219,6 +220,17 @@ const resolvers = {
       users.push(user);
 
       return user
+    },
+    deleteUser(parent, args, ctx, info) {
+      const userIndex = users.findIndex(user => user.id === args.id);
+
+      if (userIndex === -1) {
+        throw new Error('User not found!');
+      }
+
+      const deletedUser = users.splice(userIndex, 1);
+
+
     },
     createPost(parent, args, ctx, info) {
       const userExists = users.some(user => user.id === args.data.author);
