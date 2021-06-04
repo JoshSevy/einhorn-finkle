@@ -245,7 +245,7 @@ const resolvers = {
       });
       comments = comments.filter(comment => comment.author !== args.id);
 
-      return deletedUser;
+      return deletedUser[0];
     },
     createPost(parent, args, ctx, info) {
       const userExists = users.some(user => user.id === args.data.author);
@@ -274,7 +274,7 @@ const resolvers = {
 
       comments = comments.filter(comment => comment.post !== args.id);
 
-      return deletedPost;
+      return deletedPost[0];
     },
     createComment(parent, args, ctx, info) {
       const postPublished = posts.some(post => post.id === args.data.post && post.published);
@@ -305,7 +305,7 @@ const resolvers = {
 
       const deletedComment = comments.splice(commentIndex, 1);
 
-      return deletedComment;
+      return deletedComment[0];
     }
   },
   Post: {
