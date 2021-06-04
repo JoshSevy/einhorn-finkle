@@ -43,7 +43,7 @@ import uuidv4 from 'uuid/v4';
 //4. Use the commets query to verify the comment was added
 
 //* Dummy user data
-const users = [{
+let users = [{
   id: '1',
   name: 'Josh',
   email: 'joshuasevy@outlook.com',
@@ -61,7 +61,7 @@ const users = [{
 ];
 
 //* Dummy post data
-const posts = [{
+let posts = [{
   id: '11',
   title: 'Post one of many',
   body: 'Here is my first post cant wait to post more',
@@ -82,7 +82,7 @@ const posts = [{
 }];
 
 //Dummy comments data
-const comments = [{
+let comments = [{
   id: '22',
   text: 'Really love your post',
   author: '1',
@@ -230,7 +230,18 @@ const resolvers = {
 
       const deletedUser = users.splice(userIndex, 1);
 
+      posts = posts.filter(post => {
+        const match = post.author === args.id;
 
+        if (match) {
+          comments = comments.filter(comment => comment.post !== post.id);
+        }
+
+        return !match
+      });
+      comments = comments.filter(comment => comment.author !== args.id);
+
+      return deletedUser;
     },
     createPost(parent, args, ctx, info) {
       const userExists = users.some(user => user.id === args.data.author);
