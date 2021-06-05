@@ -1,5 +1,3 @@
-//* TYPE DEFINITIONS(schema)
-
 type Query {
   users(query: String): [User!]!
   posts(query: String): [Post!]!
@@ -26,7 +24,7 @@ input CreateUserInput {
 input CreatePostInput {
   title: String!
   body: String!
-  published: Boolean!,
+  published: Boolean!
   author: ID!
 }
 
@@ -60,4 +58,3 @@ type Comment {
   author: User!
   post: Post!
 }
-
