@@ -1,22 +1,24 @@
+//THIRD PARTY IMPORTS
 import { GraphQLServer } from 'graphql-yoga';
 import uuidv4 from 'uuid/v4';
+//CUSTOM IMPORTS
+import db from './db';
 
-//* RESOLVERS
 const resolvers = {
   Query: {
-    users(parent, args, ctx, info) {
+    users(parent, args, { db }, info) {
       if (!args.query) {
-        return users
+        return db.users
       }
-      return users.filter((user) => {
-        return user.name.toLowerCase().includes(args.query.toLowerCase());
+      return db.users.filter((user) => {
+        return db.user.name.toLowerCase().includes(args.query.toLowerCase());
       });
     },
-    posts(parent, args, ctx, info) {
+    posts(parent, args, { db }, info) {
       if (!args.query) {
-        return posts
+        return db.posts
       }
-      return posts.filter(post => {
+      return db.posts.filter(post => {
         const title = post.title.toLowerCase().includes(args.query.toLowerCase());
         const body = post.body.toLowerCase().includes(args.query.toLowerCase());
         if (title || body) {
@@ -41,13 +43,13 @@ const resolvers = {
         age: 38
       }
     },
-    comments(parent, args, ctx, info) {
-      return comments;
+    comments(parent, args, { db }, info) {
+      return db.comments;
     },
   },
   Mutation: {
-    createUser(parent, args, ctx, info) {
-      const emailTaken = users.some(user => user.email === args.data.email);
+    createUser(parent, args, { db }, info) {
+      const emailTaken = db.users.some(user => user.email === args.data.email);
       if (emailTaken) {
         throw new Error('Email already in use!');
       }
@@ -57,33 +59,33 @@ const resolvers = {
         ...args.data
       }
 
-      users.push(user);
+      db.users.push(user);
 
       return user
     },
-    deleteUser(parent, args, ctx, info) {
-      const userIndex = users.findIndex(user => user.id === args.id);
+    deleteUser(parent, args, { db }, info) {
+      const userIndex = db.users.findIndex(user => user.id === args.id);
 
       if (userIndex === -1) {
         throw new Error('User not found!');
       }
 
-      const deletedUser = users.splice(userIndex, 1);
+      const deletedUser = db.users.splice(userIndex, 1);
 
-      posts = posts.filter(post => {
+      db.posts = db.posts.filter(post => {
         const match = post.author === args.id;
 
         if (match) {
-          comments = comments.filter(comment => comment.post !== post.id);
+          comments = db.comments.filter(comment => comment.post !== post.id);
         }
 
         return !match
       });
-      comments = comments.filter(comment => comment.author !== args.id);
+      db.comments = db.comments.filter(comment => comment.author !== args.id);
 
       return deletedUser[0];
     },
-    createPost(parent, args, ctx, info) {
+    createPost(parent, args, { db }, info) {
       const userExists = users.some(user => user.id === args.data.author);
 
       if (!userExists) {
@@ -99,7 +101,7 @@ const resolvers = {
 
       return post;
     },
-    deletePost(parent, args, ctx, info) {
+    deletePost(parent, args, { db }, info) {
       const postIndex = posts.indexOf(post => post.id === args.id);
 
       if (postIndex === -1) {
@@ -108,13 +110,13 @@ const resolvers = {
 
       const deletedPost = posts.splice(postIndex, 1);
 
-      comments = comments.filter(comment => comment.post !== args.id);
+      db.comments = db.comments.filter(comment => comment.post !== args.id);
 
       return deletedPost[0];
     },
-    createComment(parent, args, ctx, info) {
-      const postPublished = posts.some(post => post.id === args.data.post && post.published);
-      const userExists = users.some(user => user.id === args.data.author);
+    createComment(parent, args, { db }, info) {
+      const postPublished = db.posts.some(post => post.id === args.data.post && post.published);
+      const userExists = db.users.some(user => user.id === args.data.author);
 
       if (!postPublished) {
         throw new Error('Post not found');
@@ -129,51 +131,54 @@ const resolvers = {
         ...args.data
       }
 
-      comments.push(comment);
+      db.comments.push(comment);
       return comment;
     },
-    deleteComment(parent, args, ctx, info) {
-      const commentIndex = comments.indexOf(comment => comment.id === args.id);
+    deleteComment(parent, args, { db }, info) {
+      const commentIndex = db.comments.indexOf(comment => comment.id === args.id);
 
       if (commentIndex === -1) {
         throw new Error('Comment not found');
       }
 
-      const deletedComment = comments.splice(commentIndex, 1);
+      const deletedComment = db.comments.splice(commentIndex, 1);
 
       return deletedComment[0];
     }
   },
   Post: {
-    author(parent, args, ctx, info) {
-      return users.find(user => user.id === parent.author);
+    author(parent, args, { db }, info) {
+      return db.users.find(user => user.id === parent.author);
     },
-    comments(parent, args, ctx, info) {
+    comments(parent, args, { db }, info) {
       return comments.filter(comment => comment.post === parent.id)
     }
   },
   User: {
-    posts(parent, args, ctx, info) {
-      return posts.filter(post => post.author === parent.id);
+    posts(parent, args, { db }, info) {
+      return db.posts.filter(post => post.author === parent.id);
     },
-    comments(parent, args, ctx, info) {
-      return comments.filter(comment => comment.author === parent.id);
+    comments(parent, args, { db }, info) {
+      return db.comments.filter(comment => comment.author === parent.id);
 
     }
   },
   Comment: {
-    author(parent, args, ctx, info) {
-      return users.find(user => user.id === parent.author);
+    author(parent, args, { db }, info) {
+      return db.users.find(user => user.id === parent.author);
     },
-    post(parent, args, ctx, info) {
-      return posts.find(post => post.id === parent.post);
+    post(parent, args, { db }, info) {
+      return db.posts.find(post => post.id === parent.post);
     }
   }
 }
 
 const server = new GraphQLServer({
-  typeDefs = './schema.graphql',
-  resolvers
+  typeDefs: './src/schema.graphql',
+  resolvers,
+  context: {
+    db
+  }
 });
 
 server.start(() => {

@@ -1,4 +1,4 @@
-let users = [{
+const users = [{
   id: '1',
   name: 'Josh',
   email: 'joshuasevy@outlook.com',
@@ -14,7 +14,7 @@ let users = [{
   email: 'baby@gmail.com',
 }];
 
-let posts = [{
+const posts = [{
   id: '11',
   title: 'Post one of many',
   body: 'Here is my first post cant wait to post more',
@@ -34,8 +34,7 @@ let posts = [{
   author: '2'
 }];
 
-
-let comments = [{
+const comments = [{
   id: '22',
   text: 'Really love your post',
   author: '1',
@@ -51,3 +50,11 @@ let comments = [{
   author: '3',
   post: '13'
 }];
+
+const db = {
+  users,
+  posts,
+  comments
+};
+
+export { db as default };
