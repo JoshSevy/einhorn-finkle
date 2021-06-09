@@ -35,7 +35,7 @@ const Subscription = {
   },
   post: {
     subscribe(parent, { postId }, { db, pubSub }, info) {
-      return pubSub.asyncIterator(`post ${postId}`);
+      return pubSub.asyncIterator(`post`);
     }
   }
 };
