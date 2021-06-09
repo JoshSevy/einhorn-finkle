@@ -29,7 +29,7 @@ const Mutation = {
       const match = post.author === args.id;
 
       if (match) {
-        comments = db.comments.filter(comment => comment.post !== post.id);
+        db.comments = db.comments.filter(comment => comment.post !== post.id);
       }
 
       return !match
@@ -62,7 +62,7 @@ const Mutation = {
     return user;
   },
   createPost(parent, args, { db, pubSub }, info) {
-    const userExists = users.some(user => user.id === args.data.author);
+    const userExists = db.users.some(user => user.id === args.data.author);
 
     if (!userExists) {
       throw new Error('User not found!')
@@ -74,7 +74,10 @@ const Mutation = {
     };
 
     db.posts.push(post);
-    pubSub.publish(`post ${post.id}`, { post });
+
+    if (args.data.published) {
+      pubSub.publish(`post`, { post });
+    };
 
     return post;
   },
