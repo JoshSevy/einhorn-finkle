@@ -86,18 +86,27 @@ const Mutation = {
 
     return post;
   },
-  deletePost(parent, args, { db }, info) {
+  deletePost(parent, args, { db, pubSub }, info) {
     const postIndex = posts.indexOf(post => post.id === args.id);
 
     if (postIndex === -1) {
       throw new Error('Post not found');
     }
 
-    const deletedPost = posts.splice(postIndex, 1);
+    const [post] = posts.splice(postIndex, 1);
 
     db.comments = db.comments.filter(comment => comment.post !== args.id);
 
-    return deletedPost[0];
+    if (post.published) {
+      pubSub.publish('post', {
+        post: {
+          mutation: 'DELETED',
+          data: post
+        }
+      })
+    }
+
+    return post;
   },
   updatePost(parent, { id, data }, { db }, info) {
     const post = db.posts.find(post => post.id === id);
