@@ -179,7 +179,7 @@ const Mutation = {
      })
     return comment;
   },
-  deleteComment(parent, args, { db }, info) {
+  deleteComment(parent, args, { db, pubSub }, info) {
     const commentIndex = db.comments.indexOf(comment => comment.id === args.id);
 
     if (commentIndex === -1) {
