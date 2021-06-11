@@ -144,10 +144,11 @@ const Mutation = {
       }
     } else if (post.published) {
       pubSub.publish('post', {
-        mutation: 'UPDATED',
-        data: post
+        post: {
+          mutation: 'UPDATED',
+          data: post
+        }
       })
-      //updated
     }
 
     return post;
