@@ -191,7 +191,7 @@ const Mutation = {
     pubSub.publish(`comment ${args.data.post}`, {
       comment: {
         mutation: 'DELETED',
-        comment: comment
+        data: comment
       }
     })
 
@@ -205,6 +205,13 @@ const Mutation = {
     if (typeof data.text === 'string') {
       comment.text = data.text;
     };
+
+    pubSub.publish(`comment ${args.data.post}`, {
+      comment: {
+        mutation: 'UPDATED',
+        data: comment
+      }
+    })
 
     return comment;
   }
