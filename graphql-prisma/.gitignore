@@ -1,6 +1,7 @@
 //ENVIRONMENTAL
 
 .env
+.envTemp
 
 //PACKAGE MANAGER
 
