@@ -1,0 +1,8 @@
+//ENVIRONMENTAL
+
+.env
+
+//PACKAGE MANAGER
+
+.node_modules
+
