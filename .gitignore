@@ -1,1 +1,13 @@
+//ENVIRONMENTAL
+
+.env
+.envTemp
+
+//PACKAGE MANAGER
+
 node_modules
+
+//DOCKER
+
+docker-compose.yml
+

@@ -1,0 +1,20 @@
+version: '3'
+services:
+  prisma:
+    image: #Add docker container
+    restart: always
+    ports:
+    - '4466:4466'
+    environment:
+      PRISMA_CONFIG: |
+        port: 4466
+        databases:
+          default:
+            connector: postgres
+            host: #add host address
+            port: '5432'
+            database: #Add database
+            ssl: true
+            user: #Add user
+            password: #Add password
+            migrations: true
