@@ -1,9 +1,0 @@
-//ENVIRONMENTAL
-
-.env
-.envTemp
-
-//PACKAGE MANAGER
-
-.node_modules
-
